@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import userRouter from "./routes/authRoute.js";
 import taskRouter from "./routes/taskRoute.js";
 import { appError } from "./utils/appError.js";

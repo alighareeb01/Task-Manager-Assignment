@@ -59,4 +59,4 @@ export const getMe = (req, res) => {
   });
 };
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./.env" });

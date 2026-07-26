@@ -4,10 +4,12 @@ const taskSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "Task title is required"],
+      maxlength: 100,
     },
     description: {
       type: String,
       required: [true, "Task description is required"],
+      maxlength: 500,
     },
     status: {
       type: String,

@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import { appError } from "./appError.js";
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./.env" });
 
 function sendErrDev(err, res) {
   res.status(err.statusCode).json({
