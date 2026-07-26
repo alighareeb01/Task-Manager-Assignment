@@ -6,5 +6,5 @@ export const taskSchema = z.object({
   status: z.enum(["To Do", "In Progress", "Done"]),
   priority: z.enum(["Low", "Medium", "High"]),
 
-  dueDate: z.string().datetime().optional(),
+  dueDate: z.string().date().optional(),
 });
