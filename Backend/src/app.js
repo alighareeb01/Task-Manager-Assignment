@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import userRouter from "./routes/authRoute.js";
+import taskRouter from "./routes/taskRoute.js";
 import { appError } from "./utils/appError.js";
 import { globalErrorHandler } from "./utils/globalErrorHandler.js";
 
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", userRouter);
+app.use("/api/tasks", taskRouter);
 
 app.all("/*splat", (req, res, next) => {
   next(
