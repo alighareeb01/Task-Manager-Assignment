@@ -21,19 +21,56 @@ export const createTask = catchAsync(async (req, res, next) => {
     },
   });
 });
+
 export const getTasks = catchAsync(async (req, res, next) => {
-  const tasks = await Task.find({
+  const filter = {
     user: req.user._id,
-  });
+  };
+
+  if (req.query.status) {
+    filter.status = {
+      $in: req.query.status.split(","),
+    };
+  }
+  if (req.query.priority) {
+    filter.priority = {
+      $in: req.query.priority.split(","),
+    };
+  }
+
+  if (req.query.search) {
+    filter.title = {
+      $regex: req.query.search,
+      $options: "i",
+    };
+  }
+
+  let limit = Number(req.query.limit || 10);
+  let page = Number(req.query.page || 1);
+  let skip = (page - 1) * limit;
+
+  let sortBy = "-createdAt";
+  if (req.query.sort) {
+    sortBy = req.query.sort;
+  }
+
+  const total = await Task.countDocuments(filter);
+
+  const tasks = await Task.find(filter).skip(skip).limit(limit).sort(sortBy);
 
   res.status(200).json({
     status: "success",
+    page,
+    limit,
+    total,
+    totalPages: Math.ceil(total / limit),
     results: tasks.length,
     data: {
       tasks,
     },
   });
 });
+
 export const getTask = catchAsync(async (req, res, next) => {
   const task = await Task.findOne({
     _id: req.params.id,
