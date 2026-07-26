@@ -55,9 +55,17 @@ function handleJWTError() {
   return new appError("Invalid token , please login again", 401);
 }
 
+function handleZodError(err) {
+  const errors = err.issues.map((issue) => issue.message);
+
+  return new appError(`Validation failed: ${errors.join(", ")}`, 400);
+}
+
 export const globalErrorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
+
+  if (err.name === "ZodError") err = handleZodError(err);
 
   if (process.env.NODE_ENV.trim() === "development") {
     sendErrDev(err, res);
@@ -69,6 +77,7 @@ export const globalErrorHandler = (err, req, res, next) => {
     if (error.name === "CastError") error = handleCastErrorDB(error);
     if (error.name === "TokenExpiredError") error = handleExpiredToken();
     if (error.name === "JsonWebTokenError") error = handleJWTError();
+
     sendErrorProd(error, res);
   }
 };
