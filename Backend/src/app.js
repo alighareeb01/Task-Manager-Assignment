@@ -3,8 +3,11 @@ import userRouter from "./routes/authRoute.js";
 import taskRouter from "./routes/taskRoute.js";
 import { appError } from "./utils/appError.js";
 import { globalErrorHandler } from "./utils/globalErrorHandler.js";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
