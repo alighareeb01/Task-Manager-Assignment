@@ -1,0 +1,30 @@
+import express from "express";
+import mongoose from "mongoose";
+import userRouter from "./routes/authRoute.js";
+import { appError } from "./utils/appError.js";
+import { globalErrorHandler } from "./utils/globalErrorHandler.js";
+
+const app = express();
+
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "welcome to our site",
+  });
+});
+
+app.use("/api/auth", userRouter);
+
+app.all("/*splat", (req, res, next) => {
+  next(
+    new appError(
+      `can not find this url : ${req.originalUrl} on this server`,
+      404,
+    ),
+  );
+});
+
+app.use(globalErrorHandler);
+
+export default app;
