@@ -20,7 +20,7 @@ function sendErrorProd(err, res) {
   } else {
     res.status(500).json({
       status: "error",
-      message: "soemthong went wrong!",
+      message: "something went wrong!",
     });
   }
 }
