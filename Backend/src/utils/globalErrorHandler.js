@@ -43,8 +43,15 @@ function handleValidationError(err) {
   return new appError(msg, 400);
 }
 
+function handleExpiredToken() {
+  return new appError(`your token has expired, please login again`, 400);
+}
+
+function handleJWTError() {
+  return new appError("Invalid token , please login again", 401);
+}
+
 export const globalErrorHandler = (err, req, res, next) => {
-  console.log("jere", process.env.NODE_ENV);
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
@@ -55,6 +62,8 @@ export const globalErrorHandler = (err, req, res, next) => {
 
     if (error.code === 11000) error = hndleDuplicateFields(error);
     if (error.name === "ValidationError") error = handleValidationError(error);
+    if (error.name === "TokenExpiredError") error = handleExpiredToken();
+    if (error.name === "JsonWebTokenError") error = handleJWTError();
     sendErrorProd(error, res);
   }
 };
