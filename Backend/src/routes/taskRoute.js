@@ -2,7 +2,7 @@ import express from "express";
 import {
   createTask,
   getTasks,
-  updateTaske,
+  updateTask,
   deleteTask,
   getTask,
 } from "../controllers/taskController.js";
@@ -13,6 +13,6 @@ const router = express.Router();
 router.use(protect);
 
 router.route("/").get(getTasks).post(createTask);
-router.route("/:id").patch(updateTaske).delete(deleteTask).get(getTask);
+router.route("/:id").patch(updateTask).delete(deleteTask).get(getTask);
 
 export default router;

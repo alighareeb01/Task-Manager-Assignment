@@ -43,6 +43,10 @@ function handleValidationError(err) {
   return new appError(msg, 400);
 }
 
+function handleCastErrorDB(err) {
+  return new appError(`Invalid ${err.path} params: ${err.value}`, 400);
+}
+
 function handleExpiredToken() {
   return new appError(`your token has expired, please login again`, 400);
 }
@@ -62,6 +66,7 @@ export const globalErrorHandler = (err, req, res, next) => {
 
     if (error.code === 11000) error = hndleDuplicateFields(error);
     if (error.name === "ValidationError") error = handleValidationError(error);
+    if (error.name === "CastError") error = handleCastErrorDB(error);
     if (error.name === "TokenExpiredError") error = handleExpiredToken();
     if (error.name === "JsonWebTokenError") error = handleJWTError();
     sendErrorProd(error, res);
