@@ -8,6 +8,9 @@ import EmptyState from "./EmptyState";
 import Modal from "./Modal";
 import ErrorState from "./ErrorState";
 import Pagination from "./Pagination";
+import DashboardHeader from "./DashboardHeader";
+import StatsCards from "./StateCrads";
+import TaskGrid from "./TaskGrid";
 
 const backend_url = import.meta.env.VITE_API_URL;
 export default function Dashboard() {
@@ -18,17 +21,13 @@ export default function Dashboard() {
   });
   const [tasksError, setTasksError] = useState("");
   const [statsError, setStatsError] = useState("");
-
   const { token, user } = useContext(AuthContext);
-
   const [tasks, setTasks] = useState([]);
-
   const [stats, setStats] = useState({
     totalTasks: 0,
     completedTasks: 0,
     pendingTasks: 0,
   });
-
   const statCards = [
     {
       title: "Total Tasks",
@@ -145,7 +144,7 @@ export default function Dashboard() {
       ) : statsError ? (
         <ErrorState message={statsError} onRetry={getStats} />
       ) : (
-        <StatsCardsFu statCards={statCards} />
+        <StatsCards statCards={statCards} />
         // <div>hello</div>
       )}
 
@@ -157,26 +156,16 @@ export default function Dashboard() {
         }}
       />
 
-      {/* tasks */}
-      {loadingTasks ? (
-        <Loader num={8} />
-      ) : tasksError ? (
-        <ErrorState message={tasksError} onRetry={getTasks} />
-      ) : tasks.length === 0 ? (
-        <EmptyState />
-      ) : (
-        <div className="p-4 mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {tasks.map((task) => (
-            <TaskCard
-              key={task._id}
-              task={task}
-              getStats={getStats}
-              getTasks={getTasks}
-              onEdit={openEditModal}
-            />
-          ))}
-        </div>
-      )}
+      <TaskGrid
+        loading={loadingTasks}
+        error={tasksError}
+        tasks={tasks}
+        onRetry={getTasks}
+        onEdit={openEditModal}
+        getTasks={getTasks}
+        getStats={getStats}
+      />
+
       {/* pagination */}
       <Pagination
         page={page}
@@ -186,40 +175,5 @@ export default function Dashboard() {
         setLimit={setLimit}
       />
     </>
-  );
-}
-
-function StatsCardsFu({ statCards }) {
-  return (
-    <div className="p-4 mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
-      {statCards.map((stat) => (
-        <div
-          key={stat.title}
-          className="rounded-2xl border border-slate-700 bg-slate-800 p-6 shadow-lg"
-        >
-          <p className="text-slate-400">{stat.title}</p>
-          <h2 className="mt-3 text-4xl font-bold">{stat.value}</h2>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DashboardHeader({ openCreateModal, user }) {
-  return (
-    <div className="p-5 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      <div>
-        <h1 className="text-4xl font-bold">Hello, {user?.name} </h1>
-
-        <p className="mt-2 text-slate-400">Manage your tasks efficiently.</p>
-      </div>
-
-      <button
-        className="rounded-xl bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700"
-        onClick={openCreateModal}
-      >
-        + Add Task
-      </button>
-    </div>
   );
 }
