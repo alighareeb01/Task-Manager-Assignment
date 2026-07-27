@@ -7,6 +7,7 @@ import TaskCard from "./TaskCard";
 import EmptyState from "./EmptyState";
 import Modal from "./Modal";
 import ErrorState from "./ErrorState";
+import Pagination from "./Pagination";
 
 const backend_url = import.meta.env.VITE_API_URL;
 export default function Dashboard() {
@@ -20,12 +21,13 @@ export default function Dashboard() {
 
   const { token, user } = useContext(AuthContext);
 
+  const [tasks, setTasks] = useState([]);
+
   const [stats, setStats] = useState({
     totalTasks: 0,
     completedTasks: 0,
     pendingTasks: 0,
   });
-  const [tasks, setTasks] = useState([]);
 
   const statCards = [
     {
@@ -41,14 +43,19 @@ export default function Dashboard() {
       value: stats?.pendingTasks,
     },
   ];
+
   const [loadingStats, setLoadingStats] = useState(true);
   const [loadingTasks, setLoadingTasks] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
 
   async function getStats() {
     setLoadingStats(true);
     try {
+      setStatsError("");
       const res = await axios.get(`${backend_url}api/tasks/stats`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -68,6 +75,8 @@ export default function Dashboard() {
     setLoadingTasks(true);
 
     try {
+      setTasksError("");
+
       const res = await axios.get(`${backend_url}api/tasks`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -76,8 +85,13 @@ export default function Dashboard() {
           search: searchInput.searchtitle,
           status: searchInput.status,
           priority: searchInput.priority,
+          page,
+          limit,
         },
       });
+      console.log("here", res.data);
+      setTotalPages(res.data.totalPages);
+
       setTasks(res.data.data.tasks);
     } catch (err) {
       console.error(err);
@@ -97,7 +111,7 @@ export default function Dashboard() {
     if (!token) return;
 
     getTasks();
-  }, [token, searchInput]);
+  }, [token, searchInput, page, limit]);
 
   function openCreateModal() {
     setSelectedTask(null);
@@ -111,20 +125,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="p-5 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-4xl font-bold">Hello, {user?.name} </h1>
-
-          <p className="mt-2 text-slate-400">Manage your tasks efficiently.</p>
-        </div>
-
-        <button
-          className="rounded-xl bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700"
-          onClick={openCreateModal}
-        >
-          + Add Task
-        </button>
-      </div>
+      <DashboardHeader openCreateModal={openCreateModal} user={user} />
 
       {/* modal */}
 
@@ -144,21 +145,17 @@ export default function Dashboard() {
       ) : statsError ? (
         <ErrorState message={statsError} onRetry={getStats} />
       ) : (
-        <div className="p-4 mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {statCards.map((stat) => (
-            <div
-              key={stat.title}
-              className="rounded-2xl border border-slate-700 bg-slate-800 p-6 shadow-lg"
-            >
-              <p className="text-slate-400">{stat.title}</p>
-              <h2 className="mt-3 text-4xl font-bold">{stat.value}</h2>
-            </div>
-          ))}
-        </div>
+        <StatsCardsFu statCards={statCards} />
+        // <div>hello</div>
       )}
 
       {/* search bar */}
-      <SearchBar setSearchInput={setSearchInput} />
+      <SearchBar
+        setSearchInput={(data) => {
+          setPage(1);
+          setSearchInput(data);
+        }}
+      />
 
       {/* tasks */}
       {loadingTasks ? (
@@ -180,6 +177,49 @@ export default function Dashboard() {
           ))}
         </div>
       )}
+      {/* pagination */}
+      <Pagination
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
+        limit={limit}
+        setLimit={setLimit}
+      />
     </>
+  );
+}
+
+function StatsCardsFu({ statCards }) {
+  return (
+    <div className="p-4 mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
+      {statCards.map((stat) => (
+        <div
+          key={stat.title}
+          className="rounded-2xl border border-slate-700 bg-slate-800 p-6 shadow-lg"
+        >
+          <p className="text-slate-400">{stat.title}</p>
+          <h2 className="mt-3 text-4xl font-bold">{stat.value}</h2>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function DashboardHeader({ openCreateModal, user }) {
+  return (
+    <div className="p-5 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div>
+        <h1 className="text-4xl font-bold">Hello, {user?.name} </h1>
+
+        <p className="mt-2 text-slate-400">Manage your tasks efficiently.</p>
+      </div>
+
+      <button
+        className="rounded-xl bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700"
+        onClick={openCreateModal}
+      >
+        + Add Task
+      </button>
+    </div>
   );
 }

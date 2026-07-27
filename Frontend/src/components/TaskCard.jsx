@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const backend_url = import.meta.env.VITE_API_URL;
 export default function TaskCard({ task, getStats, getTasks, onEdit }) {
+  const [deleting, setDeleting] = useState(false);
   const { token } = useContext(AuthContext);
   const getStatusStyle = (status) => {
     switch (status) {
@@ -38,11 +39,14 @@ export default function TaskCard({ task, getStats, getTasks, onEdit }) {
   };
 
   async function handleDelete() {
+    setDeleting(true);
     const confirmed = window.confirm(
       "Are you sure you want to delete this task?",
     );
 
     if (!confirmed) return;
+
+    setDeleting(true);
     try {
       const res = await axios.delete(`${backend_url}api/tasks/${task._id}`, {
         headers: {
@@ -97,17 +101,19 @@ export default function TaskCard({ task, getStats, getTasks, onEdit }) {
       {/* Actions */}
       <div className="mt-6 flex justify-end gap-3">
         <button
-          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+          disabled={deleting}
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
           onClick={() => onEdit(task)}
         >
           Edit
         </button>
 
         <button
-          className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+          disabled={deleting}
+          className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
           onClick={handleDelete}
         >
-          Delete
+          {deleting ? "Deleting..." : "Delete"}
         </button>
       </div>
     </div>
