@@ -1,11 +1,14 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import DeleteModalConfirm from "./DeleteModalConfrim";
 
 const backend_url = import.meta.env.VITE_API_URL;
 export default function TaskCard({ task, getStats, getTasks, onEdit }) {
   const [deleting, setDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { token } = useContext(AuthContext);
+
   const getStatusStyle = (status) => {
     switch (status) {
       case "Done":
@@ -38,30 +41,31 @@ export default function TaskCard({ task, getStats, getTasks, onEdit }) {
     }
   };
 
-  async function handleDelete() {
-    setDeleting(true);
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this task?",
-    );
+  function handleDelete() {
+    setShowDeleteModal(true);
+  }
 
-    if (!confirmed) return;
-
+  async function confirmDelete() {
     setDeleting(true);
+
     try {
-      const res = await axios.delete(`${backend_url}api/tasks/${task._id}`, {
+      await axios.delete(`${backend_url}api/tasks/${task._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
       await getTasks();
       await getStats();
     } catch (err) {
       console.error(err);
+    } finally {
+      setDeleting(false);
+      setShowDeleteModal(false);
     }
   }
-
   return (
-    <div className="rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-lg transition hover:-translate-y-1 hover:shadow-xl">
+    <div className="rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-lg transition hover:shadow-xl">
       {/* Title */}
       <h2 className="text-xl font-bold text-white">{task?.title}</h2>
 
@@ -116,6 +120,14 @@ export default function TaskCard({ task, getStats, getTasks, onEdit }) {
           {deleting ? "Deleting..." : "Delete"}
         </button>
       </div>
+
+      {showDeleteModal && (
+        <DeleteModalConfirm
+          deleting={deleting}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={confirmDelete}
+        />
+      )}
     </div>
   );
 }
