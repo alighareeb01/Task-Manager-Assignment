@@ -135,3 +135,55 @@ export const deleteTask = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+export const getStats = catchAsync(async (req, res, next) => {
+  const stats = await Task.aggregate([
+    {
+      $match: {
+        user: req.user._id,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalTasks: {
+          $sum: 1,
+        },
+        completedTasks: {
+          $sum: {
+            $cond: [{ $eq: ["$status", "Done"] }, 1, 0],
+          },
+        },
+        pendingTasks: {
+          $sum: {
+            $cond: [
+              {
+                $in: ["$status", ["To Do", "In Progress"]],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        totalTasks: 1,
+        completedTasks: 1,
+        pendingTasks: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      stats: stats[0] || {
+        totalTasks: 0,
+        completedTasks: 0,
+        pendingTasks: 0,
+      },
+    },
+  });
+});

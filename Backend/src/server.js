@@ -19,8 +19,8 @@ mongoose.connection.once("open", () => {
   console.log("CONNETED TO ", mongoose.connection.name);
 });
 
-// const port = process.env.PORT || 3000;
-// app.listen(port, () => {
-//   console.log(`server is running on port:${port}`);
-// });
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`server is running on port:${port}`);
+});
 export default app;
