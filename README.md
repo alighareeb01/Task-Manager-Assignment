@@ -4,6 +4,36 @@ A full-stack Task Management application built using the **MERN Stack** (MongoDB
 
 The application allows users to securely register, authenticate, and manage their own tasks through a responsive and modern interface.
 
+
+## Table of Contents
+
+- Screenshots
+- Features
+- Tech Stack
+- Project Structure
+- Project Structure Explanation
+- Prerequisites
+- Installation
+- Environment Variables
+- API Documentation
+- Automated Testing
+- Completed Features
+- Future Improvements
+- Known Issues / Incomplete Items
+- Live Demo
+- Development Notes
+
+
+
+# Prerequisites
+
+Before running the project locally, make sure you have:
+
+- Node.js (v20 or later recommended)
+- npm
+- Git
+- A MongoDB Atlas account
+
 The project includes:
 
 - JWT Authentication
@@ -89,13 +119,46 @@ The project includes:
 
 # Automated Testing
 
-The backend includes API integration testing using:
+The backend includes automated API integration testing using:
 
 - Jest
 - Supertest
 - MongoDB Atlas Test Database
 
-Implemented tests:
+Current test coverage includes:
+
+### Authentication
+
+- Register user
+- Login user
+- Reject invalid credentials
+
+### Tasks
+
+- Create task
+- Get all tasks
+- Get single task
+- Update task
+- Delete task
+
+Run all backend tests:
+
+```bash
+cd Backend
+npm test
+```
+
+Run authentication tests only:
+
+```bash
+npm test auth.test.js
+```
+
+Run task tests only:
+
+```bash
+npm test task.test.js
+```
 
 ## Authentication Tests
 
@@ -381,7 +444,21 @@ JWT_EXPIRES_IN=
 VITE_API_URL=
 ```
 
-# API Endpoints
+# API Documentation
+
+Complete API documentation is available through Postman Documenter:
+
+https://documenter.getpostman.com/view/52446600/2sBY4SLJWP
+
+The documentation includes:
+
+- Authentication endpoints
+- Task CRUD endpoints
+- Query parameters
+- Request examples
+- Response examples
+- Error responses
+- Authorization requirements
 
 # Authentication
 
@@ -547,38 +624,38 @@ Possible future enhancements:
 - Drag and Drop Task Management
 - Task Attachments
 
+# Known Issues / Incomplete Items
+
+- Docker support was not implemented.
+- Drag-and-drop task management is not implemented (optional bonus feature).
+- Task attachments are not implemented (optional bonus feature).
+
 # Live Demo
 
-Not deployed yet.
+Frontend
 
-# Development Notes
+https://task-manager-live-demo-blhyz22uj-alighareeb01s-projects.vercel.app/
 
-This project was developed independently as part of a MERN Stack technical assessment.
+Backend API
 
-Resources used:
+https://task-manager-assignment-lilac-tau.vercel.app
 
-- Official React Documentation
-- Official Express.js Documentation
-- MongoDB Documentation
-- Mongoose Documentation
-- JWT Documentation
-- Tailwind CSS Documentation
 
-AI tools (ChatGPT by OpenAI) were used as a productivity and learning assistant for:
+## AI Assistance Disclosure
 
-- Debugging and troubleshooting
-- Code review
-- Architecture discussions
-- React component organization
-- UI improvements
-- Testing guidance
-- Documentation preparation
+AI tools (ChatGPT by OpenAI) were used as a productivity and learning assistant throughout the development process.
 
-All implementation decisions, architecture, and final code were reviewed and understood by the author.
+AI assistance included:
 
-# Author
+- Debugging and troubleshooting specific issues
+- Reviewing and suggesting improvements to code structure
+- Assisting with API integration testing when issues were encountered
+- Assisting with deployment setup and deployment-related troubleshooting
+- Reviewing documentation and suggesting improvements
 
-**Aly Abdullkareem Ahmed**
+The project architecture, implementation, testing, and final technical decisions were completed, reviewed, and fully understood by the author. AI was used as a supporting development tool rather than to generate the complete project.
+
+
 
 GitHub:
 
