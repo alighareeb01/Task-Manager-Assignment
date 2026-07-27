@@ -1,8 +1,18 @@
 # Task Manager - MERN Stack Assessment
 
-A full-stack Task Management application built using the **MERN Stack** (MongoDB, Express.js, React.js, Node.js). The application allows users to securely register, authenticate, and manage their own tasks through a responsive and modern interface.
+A full-stack Task Management application built using the **MERN Stack** (MongoDB, Express.js, React.js, Node.js).
 
----
+The application allows users to securely register, authenticate, and manage their own tasks through a responsive and modern interface.
+
+The project includes:
+
+- JWT Authentication
+- Protected Routes
+- Full Task CRUD Operations
+- Advanced Task Querying
+- Request Validation
+- Global Error Handling
+- Automated API Integration Testing using Jest and Supertest
 
 # Screenshots
 
@@ -13,6 +23,7 @@ A full-stack Task Management application built using the **MERN Stack** (MongoDB
 ## Dashboard
 
 ![Dashboard](screenshots/dashboard-one.png)
+
 ![Dashboard](screenshots/dashboard-two.png)
 
 # Features
@@ -22,64 +33,120 @@ A full-stack Task Management application built using the **MERN Stack** (MongoDB
 - User Registration
 - User Login
 - JWT Authentication
-- Protected Routes
-- Get Current User
+- Password hashing using bcrypt
+- Protected API routes
+- Get current authenticated user
+- Authentication middleware
 
 ## Task Management
 
 - Create Task
+- View all user tasks
+- View single task
 - Update Task
 - Delete Task
-- View All User Tasks
-- View Single Task
+- User-specific task ownership
 
 ## Task Query Features
 
-- Search Tasks by Title
-- Filter by Status
-- Filter by Priority
+- Search tasks by title
+- Filter by status
+- Filter by priority
 - Pagination
 - Sorting
+- Task statistics
 
-## Frontend
+# Frontend Features
 
 - Responsive UI built with Tailwind CSS
-- Login & Registration pages
+- Login page
+- Registration page
 - Protected Dashboard
-- Task Creation & Editing Modal
-- Search Bar
-- Status Filter
-- Priority Filter
+- Task creation modal
+- Task editing modal
+- Search bar
+- Status filtering
+- Priority filtering
 - Pagination with configurable page size
-- Loading States
-- Error States
-- Empty States
-- Client-side Form Validation
-- Authentication state managed using React Context API
+- Loading states
+- Error states
+- Empty states
+- Client-side form validation
+- Authentication state management using React Context API
 
----
+# Backend Features
+
+- REST API architecture
+- MVC project structure
+- MongoDB Atlas integration
+- Mongoose schemas
+- JWT authentication
+- bcrypt password hashing
+- Zod request validation
+- Async error handling
+- Global error handling middleware
+- Protected routes middleware
+
+# Automated Testing
+
+The backend includes API integration testing using:
+
+- Jest
+- Supertest
+- MongoDB Atlas Test Database
+
+Implemented tests:
+
+## Authentication Tests
+
+- Register a new user
+- Login successfully
+- Reject incorrect password
+
+## Task Tests
+
+- Create task
+- Get all tasks
+- Get single task
+- Update task
+- Delete task
+
+Run all tests:
+
+```bash
+npm test
+```
+
+Run specific tests:
+
+```bash
+npm test auth.test.js
+
+npm test task.test.js
+```
 
 # Tech Stack
 
-### Frontend
+## Frontend
 
 - React.js
 - React Router
 - Axios
 - Tailwind CSS
 - React Context API
+- Vite
 
-### Backend
+## Backend
 
 - Node.js
 - Express.js
 - MongoDB Atlas
 - Mongoose
-- JWT Authentication
+- JWT
 - bcrypt
-- express-validator
-
----
+- Zod
+- Jest
+- Supertest
 
 # Project Structure
 
@@ -87,6 +154,7 @@ A full-stack Task Management application built using the **MERN Stack** (MongoDB
 Task-Manager-Assignment
 │
 ├── Backend
+│   │
 │   ├── src
 │   │   ├── controllers
 │   │   ├── middleware
@@ -97,11 +165,19 @@ Task-Manager-Assignment
 │   │   ├── app.js
 │   │   └── server.js
 │   │
+│   ├── tests
+│   │   ├── auth.test.js
+│   │   ├── task.test.js
+│   │   ├── setup.js
+│   │   └── utils
+│   │       └── authHelper.js
+│   │
+│   ├── jest.config.js
 │   ├── .env.example
-│   ├── package.json
-│   └── vercel.json
+│   └── package.json
 │
 ├── Frontend
+│   │
 │   ├── src
 │   │   ├── assets
 │   │   ├── components
@@ -119,185 +195,235 @@ Task-Manager-Assignment
 └── .gitignore
 ```
 
----
-
 # Project Structure Explanation
 
 ## Backend
 
-- **controllers** – Business logic for authentication and task management.
-- **models** – MongoDB schemas for Users and Tasks.
-- **middleware** – Authentication middleware and request validation.
-- **routes** – REST API endpoints.
-- **validations** – Backend request validation rules.
-- **utils** – Shared utilities including global error handling and JWT generation.
+### Controllers
+
+Contains application business logic:
+
+- Authentication controllers
+- Task controllers
+
+### Models
+
+MongoDB schemas:
+
+- User model
+- Task model
+
+### Middleware
+
+Reusable middleware:
+
+- JWT authentication protection
+- Validation middleware
+- Global error handling
+
+### Routes
+
+API route definitions:
+
+- Authentication routes
+- Task routes
+
+### Validations
+
+Zod schemas for:
+
+- Authentication validation
+- Task validation
+
+### Utils
+
+Shared utilities:
+
+- JWT generation
+- Custom application errors
+- Async error handling
 
 ## Frontend
 
-- **pages** – Application pages (Login, Register, Home, etc.).
-- **components** – Reusable UI components.
-- **context** – Authentication state management using React Context API.
-- **layout** – Shared layout components.
+### Pages
 
----
+Application pages:
 
-# Prerequisites
+- Login
+- Register
+- Dashboard
 
-- Node.js (v18 or later recommended)
-- npm
-- MongoDB Atlas account (or local MongoDB)
+### Components
 
----
+Reusable UI components:
+
+- Navbar
+- Task cards
+- Forms
+- Modals
+
+### Context
+
+Global state management:
+
+- Authentication state
+- User session handling
 
 # Installation
 
-Clone the repository
+Clone repository:
 
 ```bash
 git clone https://github.com/alighareeb01/Task-Manager-Assignment.git
 ```
 
-Navigate into the project
+Navigate into project:
 
 ```bash
 cd Task-Manager-Assignment
 ```
 
----
-
 # Backend Setup
 
-Navigate to the backend
+Navigate to backend:
 
 ```bash
 cd Backend
 ```
 
-Install dependencies
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-Create a `.env` file using `.env.example`
-
-Example
+Create `.env` file:
 
 ```env
 PORT=5000
+
 NODE_ENV=development
 
 DATABASE=your_mongodb_connection_string
 
+TEST_DATABASE=your_test_database_connection_string
+
 JWT_SECRET=your_secret_key
+
 JWT_EXPIRES_IN=30d
 ```
 
-Run the backend
+Run backend:
 
 ```bash
-npm run start:dev
+npm start
 ```
 
----
-
-# Frontend Setup
-
-Navigate to the frontend
-
-```bash
-cd Frontend
-```
-
-Install dependencies
-
-```bash
-npm install
-```
-
-Create a `.env` file using `.env.example`
-
-Example
-
-```env
-VITE_API_URL=http://localhost:5000/
-```
-
-Run the frontend
+Development mode:
 
 ```bash
 npm run dev
 ```
 
----
+Run backend tests:
+
+```bash
+npm test
+```
+
+# Frontend Setup
+
+Navigate to frontend:
+
+```bash
+cd Frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create `.env` file:
+
+```env
+VITE_API_URL=http://localhost:5000/
+```
+
+Run frontend:
+
+```bash
+npm run dev
+```
 
 # Environment Variables
 
-## Backend (.env)
+## Backend
 
 ```env
 PORT=
+
 NODE_ENV=
 
 DATABASE=
 
+TEST_DATABASE=
+
 JWT_SECRET=
+
 JWT_EXPIRES_IN=
 ```
 
-## Frontend (.env)
+## Frontend
 
 ```env
 VITE_API_URL=
 ```
 
----
+# API Endpoints
 
-# Main API Endpoints
+# Authentication
 
-## Authentication
-
-### Register
+## Register
 
 ```
 POST /api/auth/register
 ```
 
-### Login
+## Login
 
 ```
 POST /api/auth/login
 ```
 
-### Get Current User
+## Get Current User
 
 ```
 GET /api/auth/me
 ```
 
-Requires
+Requires:
 
 ```
 Authorization: Bearer <JWT_TOKEN>
 ```
 
----
+# Tasks
 
-## Tasks
-
-### Create Task
+## Create Task
 
 ```
 POST /api/tasks
 ```
 
-### Get All Tasks
+## Get All Tasks
 
 ```
 GET /api/tasks
 ```
 
-Supports query parameters
+Supported query parameters:
 
 | Parameter | Description        |
 | --------- | ------------------ |
@@ -305,10 +431,10 @@ Supports query parameters
 | status    | Filter by status   |
 | priority  | Filter by priority |
 | page      | Pagination page    |
-| limit     | Tasks per page     |
-| sort      | Sort results       |
+| limit     | Number of results  |
+| sort      | Sorting            |
 
-Examples
+Examples:
 
 ```
 GET /api/tasks?status=Done
@@ -322,49 +448,45 @@ GET /api/tasks?page=2&limit=5
 GET /api/tasks?sort=-createdAt
 ```
 
-### Get Single Task
+## Get Single Task
 
 ```
 GET /api/tasks/:id
 ```
 
-### Update Task
+## Update Task
 
 ```
 PATCH /api/tasks/:id
 ```
 
-### Delete Task
+## Delete Task
 
 ```
 DELETE /api/tasks/:id
 ```
 
-### Task Statistics
+## Task Statistics
 
 ```
 GET /api/tasks/stats
 ```
 
-Returns
+Returns:
 
-- Total Tasks
-- Completed Tasks
-- Pending Tasks
-
----
+- Total tasks
+- Completed tasks
+- Pending tasks
 
 # Authentication
 
-All protected endpoints require
+All protected endpoints require:
 
 ```
 Authorization: Bearer <JWT_TOKEN>
 ```
 
-Each authenticated user can only access their own tasks.
-
----
+Each authenticated user can only access and modify their own tasks.
 
 # Completed Features
 
@@ -380,15 +502,15 @@ Each authenticated user can only access their own tasks.
 
 ✅ Backend Validation
 
+✅ Zod Validation
+
 ✅ Global Error Handling
 
 ✅ CRUD Operations
 
-✅ Search by Title
+✅ Search Tasks
 
-✅ Filter by Status
-
-✅ Filter by Priority
+✅ Filter Tasks
 
 ✅ Pagination
 
@@ -398,62 +520,42 @@ Each authenticated user can only access their own tasks.
 
 ✅ Responsive UI
 
-✅ Loading, Error and Empty States
+✅ Loading States
+
+✅ Error States
+
+✅ Empty States
 
 ✅ React Context Authentication
 
----
+✅ Jest Integration Testing
 
-# Known Issues / Incomplete Items
+✅ Supertest API Testing
 
-The core assignment requirements have been completed.
+✅ Separate Testing Database
 
-Possible future improvements include:
+# Future Improvements
+
+Possible future enhancements:
 
 - Refresh Token Authentication
 - Password Reset
 - Rate Limiting
 - Docker Support
-- Automated Unit & Integration Tests
-- Drag-and-Drop Task Management
+- CI/CD Pipeline
+- Swagger API Documentation
+- Drag and Drop Task Management
 - Task Attachments
-- API Documentation (Swagger/OpenAPI)
-
----
 
 # Live Demo
 
-Not deployed.
-
----
-
-# Test Account
-
-A reviewer can create a new account using
-
-```
-POST /api/auth/register
-```
-
-Or use a predefined account if available
-
-```
-Email:
-reviewer@example.com
-
-Password:
-Reviewer123
-```
-
-_(Update these credentials before submission if you create a dedicated reviewer account.)_
-
----
+Not deployed yet.
 
 # Development Notes
 
 This project was developed independently as part of a MERN Stack technical assessment.
 
-Resources used during development include:
+Resources used:
 
 - Official React Documentation
 - Official Express.js Documentation
@@ -465,21 +567,19 @@ Resources used during development include:
 AI tools (ChatGPT by OpenAI) were used as a productivity and learning assistant for:
 
 - Debugging and troubleshooting
-- Code review and refactoring
+- Code review
+- Architecture discussions
 - React component organization
-- Improving UI styling and responsive design
-- General MERN development guidance
-- Final project review before submission
-- README preparation and documentation
+- UI improvements
+- Testing guidance
+- Documentation preparation
 
-All implementation decisions, architecture, and final code were reviewed, understood, and verified by the author.
-
----
+All implementation decisions, architecture, and final code were reviewed and understood by the author.
 
 # Author
 
 **Aly Abdullkareem Ahmed**
 
-GitHub
+GitHub:
 
 https://github.com/alighareeb01
