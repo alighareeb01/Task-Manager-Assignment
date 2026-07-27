@@ -140,7 +140,7 @@ export default function Dashboard() {
 
       {/* Stats */}
       {loadingStats ? (
-        <Loader num={3} />
+        <Loader num={4} />
       ) : statsError ? (
         <ErrorState message={statsError} onRetry={getStats} />
       ) : (
