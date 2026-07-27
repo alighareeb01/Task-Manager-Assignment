@@ -7,15 +7,6 @@ import cors from "cors";
 
 const app = express();
 
-//refersh vercel
-//refersh vercel
-//refersh vercel
-//refersh vercel
-//refersh vercel
-//refersh vercel
-//refersh vercel
-//refersh vercel again
-//refersh vercel again
 
 app.use(cors());
 

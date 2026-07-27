@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
-import Loader from "./Loader";
+import Loader from "../common/Loader";
 import SearchBar from "./SearchBar";
 import TaskCard from "./TaskCard";
-import EmptyState from "./EmptyState";
+import EmptyState from "../common/EmptyState";
 import Modal from "./Modal";
-import ErrorState from "./ErrorState";
+import ErrorState from "../common/ErrorState";
 import Pagination from "./Pagination";
 import DashboardHeader from "./DashboardHeader";
 import StatsCards from "./StateCrads";
@@ -88,7 +88,7 @@ export default function Dashboard() {
           limit,
         },
       });
-      console.log("here", res.data);
+
       setTotalPages(res.data.totalPages);
 
       setTasks(res.data.data.tasks);

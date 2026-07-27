@@ -55,6 +55,7 @@ export default function Pagination({
         }}
         className="ms-2 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2"
       >
+        <option value={2}>2</option>
         <option value={5}>5</option>
         <option value={10}>10</option>
         <option value={20}>20</option>

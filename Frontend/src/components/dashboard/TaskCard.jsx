@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const backend_url = import.meta.env.VITE_API_URL;
 export default function TaskCard({ task, getStats, getTasks, onEdit }) {

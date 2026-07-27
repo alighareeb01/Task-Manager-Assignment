@@ -9,7 +9,7 @@ import Register from "./pages/Register";
 import Layout from "./layout/Layout";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 
 const routes = createBrowserRouter([
   {

@@ -1,7 +1,7 @@
 import React from "react";
-import Loader from "./Loader";
-import ErrorState from "./ErrorState";
-import EmptyState from "./EmptyState";
+import Loader from "../common/Loader";
+import ErrorState from "../common/ErrorState";
+import EmptyState from "../common/EmptyState";
 import TaskCard from "./TaskCard";
 
 export default function TaskGrid({
