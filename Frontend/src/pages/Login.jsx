@@ -53,9 +53,8 @@ export default function Login() {
       reset();
       setServerError("");
 
-      setTimeout(() => {
-        nav("/dashboard");
-      }, 3000);
+      nav("/dashboard");
+      
     } catch (err) {
       setServerError(err.message);
     } finally {
