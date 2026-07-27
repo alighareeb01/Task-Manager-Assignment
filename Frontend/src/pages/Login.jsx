@@ -41,10 +41,8 @@ export default function Login() {
         },
         body: JSON.stringify(data),
       });
-      console.log("res", res);
 
       const result = await res.json();
-      console.log("result", result);
 
       if (!res.ok) {
         throw new Error(result.message);

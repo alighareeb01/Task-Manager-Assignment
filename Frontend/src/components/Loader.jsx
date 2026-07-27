@@ -1,8 +1,8 @@
-export default function Loader() {
+export default function Loader({ num }) {
   return (
-    <div className="min-h-screen p-6">
+    <div className="mt-10 p-6">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, index) => (
+        {Array.from({ length: num }).map((_, index) => (
           <div
             key={index}
             className="animate-pulse rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-lg"

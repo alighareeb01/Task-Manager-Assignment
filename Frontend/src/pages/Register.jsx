@@ -176,7 +176,7 @@ export default function Register() {
             disabled={loading}
             className="mt-4 w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Signing In..." : "Login"}
+            {loading ? "Signing up..." : "Register"}
           </button>
           {/* Login Link */}
           <p className="text-center text-sm text-slate-400">
