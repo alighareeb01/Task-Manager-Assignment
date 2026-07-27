@@ -67,7 +67,10 @@ export const globalErrorHandler = (err, req, res, next) => {
 
   if (err.name === "ZodError") err = handleZodError(err);
 
-  if (process.env.NODE_ENV.trim() === "development") {
+  if (
+    process.env.NODE_ENV.trim() === "development" ||
+    process.env.NODE_ENV.trim() === "test"
+  ) {
     sendErrDev(err, res);
   } else if (process.env.NODE_ENV.trim() === "production") {
     let error = err;
